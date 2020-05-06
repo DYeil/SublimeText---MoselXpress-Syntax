@@ -1,0 +1,331 @@
+{ "name": "Xpress",
+  "scopeName": "source.xpress",
+    "fileTypes": [
+        "mos"
+    ],
+  "patterns": [
+
+
+  {
+      "IGNOREcomment": "built-in constants",
+      "IGNOREmatch": "(?i:(r8|r4|\\.TRUE\\.|\\.FALSE\\.))",
+      "IGNOREname": "constant.language.xpress"
+  },
+  {
+      "IGNOREcomment": "numbers",
+      "IGNOREmatch": "\\b[\\+\\-]?[0-9]+\\.?[0-9a-zA-Z_]*\\b",
+      "IGNOREname": "constant.numeric.xpress"
+  },
+
+
+
+
+  {
+      "begin": "(?x:\\s*([a-zA-Z\\(\\)]*)(?<!end)\\s*(?i:(function|subroutine|module|type|procedure))\\b\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*(?:(\\()([^)]*)?  (\\))?)?)",
+      "beginCaptures": {
+          "1": {
+              "name": "storage.type.xpress"
+          },
+          "2": {
+              "name": "storage.type.function.xpress"
+          },
+          "3": {
+              "name": "entity.name.function.xpress"
+          },
+          "4": {
+              "name": "punctuation.definition.parameters.xpress"
+          },
+          "5": {
+              "name": "variable.parameter.xpress"
+          },
+          "6": {
+              "name": "punctuation.definition.parameters.xpress"
+          }
+      },
+      "comment": "First line of function/subroutine definition",
+      "end": "(?x:((?i:end))($|\\s*(?i:function|subroutine|module|type|procedure)(\\s+[A-Za-z_][A-Za-z0-9_]*)?))",
+      "endCaptures": {
+          "1": {
+              "name": "keyword.other.xpress"
+          },
+          "2": {
+              "name": "storage.type.xpress"
+          }
+      },
+      "name": "meta.function.xpress",
+      "patterns": [
+          {
+              "include": "$self"
+          }
+      ]
+  },
+
+  {
+      "begin": "\\b(?i:(integer|real|double\\s+precision|complex|logical|character))\\b(?=.*::)",
+      "beginCaptures": {
+          "1": {
+              "name": "storage.type.xpress"
+          }
+      },
+      "comment": "Line of type specification",
+      "end": "(?=!)|$",
+      "name": "meta.specification.xpress",
+      "patterns": [
+          {
+              "include": "$self"
+          }
+      ]
+  },
+  {
+      "comment": "statements controling the flow of the program",
+      "match": "\\b(?i:(go\\s*to|assign|to|if|then|else|elseif|elif|end\\-if|select\\s*case|case|end\\s*select|end\\s*if|continue|stop|pause|do|end\\s*do|while|cycle|forall|do|end\\-do))\\b",
+      "name": "keyword.control.xpress"
+  },
+  {
+      "comment": "programming units",
+      "match": "\\b(?i:(program|end\\s+program|entry|block\\s+data|call|return|contains|include))\\b",
+      "name": "keyword.control.programming-units.xpress"
+  },
+  {
+      "comment": "operators",
+      "match": "((?<!\\:=)\\:=(?!\\:=)|\\-|\\+|\\/\\/|\\/|(?!^)\\*|::|:=)",
+      "name": "keyword.operator.xpress"
+  },
+  {
+      "comment": "comparaciones",
+      "match": "(?i:(<\\=|>\\=|\\=|<|>|\\!\\=|<>))",
+      "name": "keyword.operator.comparison.xpress"
+  },
+  {
+      "match": "(?x)(?<!\\.)\\b(\n __import__|abs|dynamic|array|declarations|end\\-declarations|parameters|end\\-parameters|write|writeln|of|mpvar|linctr|include|set|of|model|end\\-model|\n exec|execfile|exit|fopen|fclose|initializations|end\\-initializations|from|as|exists|getsize|\n input|true|false|intern|isinstance|issubclass|iter|len|license|locals|map|max|memoryview|\n min|next|open|ord|pow|print|property|quit|range|raw_input|reduce|reload|\n repr|reversed|round|setattr|sorted|sum|unichr|vars|zip\n )\\b",
+      "name": "support.function.builtin.xpress"
+  },
+  {
+      "comment": "logical operators",
+      "match": "(?i:(\\ and\\ |\\ or\\ |\\ eq\\ |\\ lt\\ |\\ le\\ |\\ gt\\ |\\ ge\\ |\\ ne\\ |\\ not\\ |\\ eqv\\ |\\ neqv\\ ))",
+      "name": "keyword.operator.logical.xpress"
+  },
+  {
+      "IGNOREcomment": "brackets",
+      "IGNOREmatch": "([\\()])",
+      "IGNOREname": "keyword.operator.parenthesis.xpress"
+  },
+  {
+      "comment": "data specification",
+      "match": "\\b(?i:(integer|real|double\\s+precision|complex|logical|character|block\\sdata|operator|assignment|type|boolean|string))\\b",
+      "name": "storage.type.xpress"
+  },
+  {
+      "comment": "data type attributes",
+      "match": "\\b(?i:(dimension|common|equivalence|parameter|external|intrinsic|save|data|implicit\\s*none|implicit|intent|in|out|inout))\\b",
+      "name": "storage.modifier.xpress"
+  },
+  {
+      "applyEndPatternLast": 1,
+      "begin": "'",
+      "beginCaptures": {
+          "0": {
+              "name": "punctuation.definition.string.begin.xpress"
+          }
+      },
+      "comment": "String",
+      "end": "'",
+      "endCaptures": {
+          "0": {
+              "name": "punctuation.definition.string.end.xpress"
+          }
+      },
+      "name": "string.quoted.single.xpress",
+      "patterns": [
+          {
+              "match": "''",
+              "name": "constant.character.escape.apostrophe.xpress"
+          }
+      ]
+  },
+  {
+      "applyEndPatternLast": 1,
+      "begin": "\"",
+      "beginCaptures": {
+          "0": {
+              "name": "punctuation.definition.string.begin.xpress"
+          }
+      },
+      "comment": "String",
+      "end": "\"",
+      "endCaptures": {
+          "0": {
+              "name": "punctuation.definition.string.end.xpress"
+          }
+      },
+      "name": "string.quoted.double.xpress",
+      "patterns": [
+          {
+              "match": "\"\"",
+              "name": "constant.character.escape.quote.xpress"
+          }
+      ]
+  },
+  {
+      "begin": "^[Cc](?=\\b|[Cc])",
+      "beginCaptures": {
+          "0": {
+              "name": "punctuation.definition.comment.xpress"
+          }
+      },
+      "end": "$\\n?",
+      "name": "comment.line.c.xpress",
+      "patterns": [
+          {
+              "match": "\\\\\\s*\\n"
+          }
+      ]
+  },
+  {
+      "begin": "^\\*",
+      "beginCaptures": {
+          "0": {
+              "name": "punctuation.definition.comment.xpress"
+          }
+      },
+      "end": "$\\n?",
+      "name": "comment.line.asterisk.xpress",
+      "patterns": [
+          {
+              "match": "\\\\\\s*\\n"
+          }
+      ]
+  },
+  {
+      "begin": "^\\s*#\\s*(error|warning)\\b",
+      "captures": {
+          "1": {
+              "name": "keyword.control.import.error.xpress"
+          }
+      },
+      "end": "$\\n?",
+      "name": "meta.preprocessor.diagnostic.xpress",
+      "patterns": [
+          {
+              "match": "(?>\\\\\\s*\\n)",
+              "name": "punctuation.separator.continuation.xpress"
+          }
+      ]
+  },
+  {
+      "begin": "^\\s*#\\s*(include|import)\\b\\s+",
+      "captures": {
+          "1": {
+              "name": "keyword.control.import.include.xpress"
+          }
+      },
+      "end": "(?=(?://|/\\*))|$\\n?",
+      "name": "meta.preprocessor.xpress.include",
+      "patterns": [
+          {
+              "match": "(?>\\\\\\s*\\n)",
+              "name": "punctuation.separator.continuation.xpress"
+          },
+          {
+              "begin": "\"",
+              "beginCaptures": {
+                  "0": {
+                      "name": "punctuation.definition.string.begin.xpress"
+                  }
+              },
+              "end": "\"",
+              "endCaptures": {
+                  "0": {
+                      "name": "punctuation.definition.string.end.xpress"
+                  }
+              },
+              "name": "string.quoted.double.include.xpress"
+          },
+          {
+              "begin": "<",
+              "beginCaptures": {
+                  "0": {
+                      "name": "punctuation.definition.string.begin.xpress"
+                  }
+              },
+              "end": ">",
+              "endCaptures": {
+                  "0": {
+                      "name": "punctuation.definition.string.end.xpress"
+                  }
+              },
+              "name": "string.quoted.other.lt-gt.include.xpress"
+          }
+      ]
+  },
+
+
+
+
+  {
+      "begin": "^[Cc](?=\\b|[Cc])",
+      "beginCaptures": {
+          "0": {
+              "name": "punctuation.definition.comment.xpress"
+          }
+      },
+      "end": "$\\n?",
+      "name": "comment.line.c.xpress",
+      "patterns": [
+          {
+              "match": "\\\\\\s*\\n"
+          }
+      ]
+  },
+  {
+      "begin": "^\\*",
+      "beginCaptures": {
+          "0": {
+              "name": "punctuation.definition.comment.xpress"
+          }
+      },
+      "end": "$\\n?",
+      "name": "comment.line.asterisk.xpress",
+      "patterns": [
+          {
+              "match": "\\\\\\s*\\n"
+          }
+      ]
+  },
+  {
+      "begin": "[!]",
+      "beginCaptures": {
+          "0": {
+              "name": "punctuation.definition.comment.xpress"
+          }
+      },
+      "end": "$\\n?",
+      "name": "comment.line.asterisk.xpress",
+      "patterns": [
+          {
+              "match": "\\\\\\s*\\n"
+          }
+      ]
+  },
+  {
+      "begin": "\\(!",
+      "captures": {
+          "0": {
+            "name": "punctuation.definition.comment.source.xpress"
+          }
+      },
+      "end": "!\\)\\n?",
+      "name": "comment.block.source.xpress"
+  },
+  {
+      "captures": {
+        "1":{
+          "name": "punctuation.definition.comment.source.xpress"
+        }
+      },
+      "match": "(//).*$\n?",
+      "name" : "comment.line.double-slash.source.xpress"
+  }
+  ],
+  "uuid": "8e494bec-c003-4942-9a3a-b73fc1acfca6"
+}
